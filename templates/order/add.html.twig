@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block javascript %}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
+{% block title %}
+    Vérifier commande
+{% endblock %}
+
+{% block content %}
+
+    <h1>Vérifier ma commande</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <b>Adresse de livraison</b>
+            <div class="form-check mt-4">
+                {{ delivery|raw }}
+            </div>
+            <hr>
+            <b>Mon transporteur</b>
+            <div class="form-check">
+                {{ carrier.name }}<br>
+                {{ carrier.description }}<br>
+                {{ (carrier.price / 100)|number_format(2, ',', '.')}} €
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center">
+                <b>Ma commande</b>
+            </div>
+            <div class="order_summary">
+                {% set total = null %}
+                {% for key,product in cart %}
+                    <div class="row {% if key > 0 %}mt-2{% endif %}">
+                        <div class="col-2">
+                            <img src="/uploads/{{ product.product.illustration }}" alt="{{ product.product.name }}" height="75px">
+                        </div>
+                        <div class="col-8 my-auto">
+                            {{ product.product.name }}<br>
+                            <small>{{ product.product.subtitle }}</small><br>
+                            x {{ product.quantity }}
+                        </div>
+                        <div class="col-2 my-auto">
+                            {{ ((product.product.price * product.quantity) / 100)|number_format(2, ',', '.') }} €
+                        </div>
+                    </div>
+                    {% set total = total + (product.product.price * product.quantity) %}
+                {% endfor %}
+            </div>
+            <hr>
+            <b>Sous-total : </b>{{ (total / 100)|number_format(2, ',', '.')}} €<br>
+            <b>Livraison : </b>{{ (carrier.price / 100)|number_format(2, ',', '.')}} €<br>
+            <hr>
+            <b>Total : </b>{{ ((total / 100) + (carrier.price / 100))|number_format(2, ',', '.')}} €
+            <form action="/commande/create-session/{{ reference }}" method="POST">
+                <button type="submit" class="btn btn-success btn-block mt-3" id="checkout-button">Payer {{ ((total / 100) + (carrier.price / 100))|number_format(2, ',', '.')}} €</button>
+            </form>
+
+                {# <a class="btn btn-success btn-block mt-3" id="checkout-button">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',', '.')}} €</a> #}
+
+        </div>
+    </div>
+
+{% endblock %}
+{# 
+{% block stripe %}
+    <script type="text/javascript">
+        // Create an instance of the Stripe object with your publishable API key
+        var stripe = Stripe("sk_test_51Lai5LDy8BiugQdcGvycJoE2H48AwfAPwfWEaTamKiv731H5Gy49g9sKNDPOeJDXEDekP4exMduLawyEWWfTE5C300FbAu9R9J");
+        var checkoutButton = document.getElementById("checkout-button");
+        checkoutButton.addEventListener("click", function () {
+            fetch("/commande/create-session", {
+                method: "POST",
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (session) {
+                    return stripe.redirectToCheckout({ sessionId: session.id });
+                })
+                .then(function (result) {
+                    // If redirectToCheckout fails due to a browser or network
+                    // error, you should display the localized error message to your
+                    // customer using error.message.
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                });
+        });
+    </script>
+{% endblock %} #}
