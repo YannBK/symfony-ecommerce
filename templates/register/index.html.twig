@@ -5,10 +5,14 @@
 {% block content %}
     <h1>Page d'inscription</h1>
 
-    {% if notification %}
+    {# {% if notification %}
         <div class="alert alert-info">{{ notification }}</div>
         <hr>
-    {% endif %}
+    {% endif %} #}
+
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
 
     {{ form(form) }}
 

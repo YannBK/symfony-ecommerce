@@ -81,3 +81,8 @@ body {
     color: #4b6584;
     font-weight: bold;
 }
+
+.validate-card {
+    width: 300px;
+    margin: 0 auto;
+}

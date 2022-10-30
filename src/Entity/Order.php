@@ -58,6 +58,13 @@ class Order
         return $this->id;
     }
 
+    // public function setId(string $id): self
+    // {
+    //     $this->id = $id;
+
+    //     return $this;
+    // }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -148,21 +155,19 @@ class Order
         return $this;
     }
 
-    // public function isIsPaid(): ?bool
-    // {
-    //     return $this->isPaid;
-    // }
-
-    // public function setIsPaid(bool $isPaid): self
-    // {
-    //     $this->isPaid = $isPaid;
-
-    //     return $this;
-    // }
-
     public function getTotal() {
         $total = null;
+        // foreach($this->getOrderDetails()->getValues() as $product) {
         foreach($this->getOrderDetails()->getValues() as $product) {
+            dump($product);
+            // dump(gettype($product));
+            // dump(gettype($product->getTotal()));
+            // dump($total);
+            // dump($total + $product->getTotal());
+            // dd($product->getTotal());
+
+            // $subTotal = $product->getTotal();
+            // $total = $total + $subTotal;
             $total = $total + $product->getTotal();
         };
         return $total;

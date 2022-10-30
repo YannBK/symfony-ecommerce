@@ -50,20 +50,18 @@ class AddressType extends AbstractType
             ->add('postal', TextType::class, [
                 'label' => 'Votre code postal',
                 'attr' => [
-                    'placeholder' => 'Votre code postal'
+                    'placeholder' => '44600'
                 ]
             ])
             ->add('city', TextType::class, [
                 'label' => 'Votre ville',
                 'attr' => [
-                    'placeholder' => 'Votre ville'
+                    'placeholder' => 'Saint Nazaire'
                 ]
             ])
             ->add('country', CountryType::class, [
                 'label' => 'Votre pays',
-                'attr' => [
-                    'placeholder' => 'Votre pays'
-                ]
+                'data' => 'FR'
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Votre téléphone',

@@ -48,16 +48,25 @@ class RegisterController extends AbstractController
                 $mailContent = "Bonjour nouvel inscrit ".$user->getFirstname()."<br>Bienvenue!";
                 $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur la boutique ultime', $mailContent);
 
-                $notification = "Votre inscription s'est bien déroulée, vous pouvez vous connecter";
+                // $notification = "Votre inscription s'est bien déroulée, vous pouvez vous connecter";
+
+                $this->addFlash('notice', "Votre inscription s'est bien déroulée, vous pouvez vous connecter");
+
+                return $this->render('security/login.html.twig', [
+                    // 'form' => $form->createView(),//insertion de la vue du formulaire
+                    'error' => null,
+                    'last_username' => null
+                ]);
             } else {
-                $notification = "L'email utilisé existe déjà.";
+                // $notification = "L'email utilisé existe déjà.";
+                $this->addFlash('notice', "L'email utilisé existe déjà.");
             }
 
         }
 
         return $this->render('register/index.html.twig', [
-            'form' => $form->createView(),//insertion de la vue du formulaire
-            'notification' => $notification
+            'form' => $form->createView()//,
+            //'notification' => $notification
         ]);
     }
 }

@@ -9,6 +9,11 @@
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
+        {# {% if notification %}
+            <div class="alert alert-info">{{ notification }}</div>
+            <hr>
+        {% endif %} #}
+
         {% for message in app.flashes('notice') %}
             <div class="alert alert-info">{{ message }}</div>
         {% endfor %}
@@ -21,7 +26,8 @@
 
         <h1 class="h3 mb-3 font-weight-normal">Merci de vous connecter</h1>
         <label for="inputEmail">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="Votre email" required autofocus>
+        
+        <input type="email" {% if last_username %} value="{{ last_username }}" {% endif %}name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="Votre email" required autofocus>
         <label for="inputPassword">Mot de passe</label>
         <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="Votre mot de passe" required>
 
