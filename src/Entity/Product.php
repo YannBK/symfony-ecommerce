@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,12 +34,25 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Category $category = null;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
+    #[ORM\JoinTable(name: 'product_category_category')]
+    private ?Collection $category = null;
 
     #[ORM\Column]
     private ?bool $isBest = null;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comment::class)]
+    private Collection $comments;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Note::class)]
+    private Collection $notes;
+
+    public function __construct()
+    {
+        $this->category = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->notes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -116,12 +131,12 @@ class Product
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory(): ?Collection
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory(?Collection $category): self
     {
         $this->category = $category;
 
@@ -136,6 +151,66 @@ class Product
     public function setIsBest(bool $isBest): self
     {
         $this->isBest = $isBest;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getProduct() === $this) {
+                $comment->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getProduct() === $this) {
+                $note->setProduct(null);
+            }
+        }
 
         return $this;
     }

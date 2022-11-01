@@ -52,11 +52,6 @@ class SearchType extends AbstractType
         return '';
     }
 
-
-
 }
-
-
-
 
 ?>
