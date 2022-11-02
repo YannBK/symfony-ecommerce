@@ -77,9 +77,11 @@ class OrderController extends AbstractController
             $this->entityManager->persist($order);
 
             foreach($cart->getFull() as $prod) {
+                // dd($prod);
                 $orderDetail = new OrderDetails();
                 $orderDetail->setMyOrder(($order));
                 $orderDetail->setProduct(($prod['product']->getName()));
+                $orderDetail->setProductId(($prod['product']));
                 $orderDetail->setQuantity(($prod['quantity']));
                 $orderDetail->setPrice(($prod['product']->getPrice()));
                 $orderDetail->setTotal(($prod['product']->getPrice() * $prod['quantity']));

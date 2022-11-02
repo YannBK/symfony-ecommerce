@@ -29,6 +29,9 @@ class OrderDetails
     #[ORM\Column]
     private ?float $total = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orderDetails')]
+    private ?Product $productId = null;
+
     public function __toString()
     {
         return $this->getProduct().' x '.$this->getQuantity();
@@ -95,6 +98,18 @@ class OrderDetails
     public function setTotal(float $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getProductId(): ?Product
+    {
+        return $this->productId;
+    }
+
+    public function setProductId(?Product $productId): self
+    {
+        $this->productId = $productId;
 
         return $this;
     }

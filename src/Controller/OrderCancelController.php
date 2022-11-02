@@ -16,7 +16,6 @@ class OrderCancelController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
     #[Route('/commande/erreur/{stripeSessionId}', name: 'app_order_cancel')]
     public function index($stripeSessionId): Response
     {
@@ -25,9 +24,6 @@ class OrderCancelController extends AbstractController
         if(!$order || $order->getUser() != $this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
-
-
-        
 
         return $this->render('order_cancel/index.html.twig', [
             'order' => $order

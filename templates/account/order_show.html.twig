@@ -31,15 +31,20 @@
                     <th scope="col">Quantité</th>
                     <th scope="col">Prix unitaire</th>
                     <th scope="col">Total</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
             {% for product in order.orderDetails %}
                 <tr>
+                {# {{dump(product)}} #}
                     <td>{{ product.product }}</td>
                     <td>x {{ product.quantity }}</td>
                     <td>{{ (product.price / 100)|number_format(2,',','.') }} €</td>
                     <td>{{ (product.total / 100)|number_format(2,',','.') }} €</td>
+                    {{dump(product)}}
+                    <td><a href="{{ path('app_account_evaluate_product', { 'id' : product.productId.id, 'update' : 'false' }) }}" class="btn btn-warning">Evaluer le produit</a></td>
+
                 </tr>
             {% endfor %}
             </tbody>
