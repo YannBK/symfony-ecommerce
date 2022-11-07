@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,7 +21,7 @@ class Comment
     private ?string $text = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,16 +31,10 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'answers')]
-    private ?self $answerTo = null;
-
-    #[ORM\OneToMany(mappedBy: 'answerTo', targetEntity: self::class)]
-    private Collection $answers;
-
     #[ORM\Column(nullable: true)]
     private ?string $days = null;
 
-    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Opinion::class)]
+    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Opinion::class, orphanRemoval: true)]
     private Collection $opinions;
 
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
@@ -68,12 +63,12 @@ class Comment
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -103,57 +98,6 @@ class Comment
 
         return $this;
     }
-
-    public function getAnswerTo(): ?self
-    {
-        return $this->answerTo;
-    }
-
-    public function setAnswerTo(?self $answerTo): self
-    {
-        $this->answerTo = $answerTo;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getAnswers(): Collection
-    {
-        return $this->answers;
-    }
-
-    public function addAnswer(self $answer): self
-    {
-        if (!$this->answers->contains($answer)) {
-            $this->answers->add($answer);
-            $answer->setAnswerTo($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnswer(self $answer): self
-    {
-        if ($this->answers->removeElement($answer)) {
-            // set the owning side to null (unless already changed)
-            if ($answer->getAnswerTo() === $this) {
-                $answer->setAnswerTo(null);
-            }
-        }
-
-        return $this;
-    }
-
-    // public function getNumberOfDaysPassed($com): string
-    // {
-    //     $time = new \DateTime('now');
-
-    //     $days = $time->diff($com->getCreatedAt());
-
-    //     return $days->format('%R%a days');
-    // }
 
     public function getDays(): ?string
     {

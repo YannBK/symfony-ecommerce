@@ -12,8 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;//permet d'accéder au manager d'entité
 use Symfony\Component\HttpFoundation\Request; //permet d'acceder aux requêtes http
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface; //pouvoir acceder aux fonctions de hash
 
-// use Doctrine\Persistence\ManagerRegistry; 
-
 class RegisterController extends AbstractController
 {
     private $entityManager;
@@ -21,7 +19,6 @@ class RegisterController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
     }
-
 
     #[Route('/inscription', name: 'app_register')]
     public function index(Request $request, UserPasswordHasherInterface $encoder): Response //Request permet d'écouter les requêtes http
@@ -52,16 +49,12 @@ class RegisterController extends AbstractController
 
                 $this->addFlash('notice', "Votre inscription s'est bien déroulée, vous pouvez vous connecter");
 
-                return $this->render('security/login.html.twig', [
-                    // 'form' => $form->createView(),//insertion de la vue du formulaire
-                    'error' => null,
-                    'last_username' => null
-                ]);
+                return $this->redirectToRoute('app_login', array('error' => null,
+                    'last_username' => null));
             } else {
                 // $notification = "L'email utilisé existe déjà.";
                 $this->addFlash('notice', "L'email utilisé existe déjà.");
             }
-
         }
 
         return $this->render('register/index.html.twig', [

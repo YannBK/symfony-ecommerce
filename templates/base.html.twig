@@ -10,9 +10,11 @@
     <!-- Bootstrap core CSS -->
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/theboutique.css')}}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c5b605e63e.js" crossorigin="anonymous"></script>
+    
     {% block javascript %}{% endblock %}
 
-    <style>
+    <style>{#TODO à enlever après ajout du contenu de home #}
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -28,93 +30,88 @@
             }
         }
     </style>
-    <!-- Custom styles for this template -->
     <link href="{{asset('assets/css/carousel.css')}}" rel="stylesheet">
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="{{ path('app_home') }}">THE Boutique</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('app_products') }}">Nos produits<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Qui sommes-nous</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
-                </li>
-            </ul>
-            <div class="nav_login">
-                {% if app.user %}
-                <a href="{{ path('app_account') }}">Mon compte <small>({{ app.user.firstname }})</small></a> | <a href="{{ path('app_logout') }}">Déconnexion</a>
-                {% else %}
-                <a href="{{ path('app_login') }}">Connexion</a> | <a href="{{ path('app_register') }}">Inscription</a>
-                {% endif %}
-            </div>
-            <a href="{{ path('app_cart') }}">
-                <img src="{{ asset('assets/image/cart.png') }}" alt="icone de panier" class="cart_icon">
-            </a>
-        </div>
-    </nav>
-</header>
-
-<main role="main">
-
-{% if block('carousel') is defined %}
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            {% for key,header in headers %}
-                <li data-target="#myCarousel" data-slide-to="{{ key }}" {% if key == 0 %} class="active" {% endif %}></li>
-            {% endfor %}
-        </ol>
-        <div class="carousel-inner">
-        {% for key,header in headers %}
-            <div class="carousel-item {% if key == 0 %} active {% endif %}" style="background: url('/uploads/{{ header.illustration }}');background-size:cover;background-position:center;">
-                <div class="container">
-                    <div class="carousel-caption text-left">
-                        <h1>{{ header.title }}</h1>
-                        <p>{{ header.content }}</p>
-                        <p><a class="btn btn-lg btn-info" href="{{ header.btnUrl }}" role="button">{{ header.btnTitle }}</a></p>
-                    </div>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="{{ path('app_home') }}">THE Boutique</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('app_products') }}">Nos produits<span class="sr-only">(current)</span></a>{#TODO c'est quoi ce (current) ?#}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Qui sommes-nous</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
+                    </li>
+                </ul>
+                <div class="nav_login">
+                    {% if app.user %}
+                        <a href="{{ path('app_account') }}">Mon compte <small>({{ app.user.firstname }})</small></a> | 
+                        <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}">Connexion</a> | 
+                        <a href="{{ path('app_register') }}">Inscription</a>
+                    {% endif %}
                 </div>
+                <a href="{{ path('app_cart') }}">
+                    <img src="{{ asset('assets/image/cart.png') }}" alt="icone de panier" class="cart_icon">
+                </a>
             </div>
-        {% endfor %}
+        </nav>
+    </header>
+
+    <main role="main">
+        {% if block('carousel') is defined %}
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for key,header in headers %}
+                        <li data-target="#myCarousel" data-slide-to="{{ key }}" {% if key == 0 %} class="active" {% endif %}></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                {% for key,header in headers %}
+                    <div class="carousel-item {% if key == 0 %} active {% endif %}" style="background: url('/uploads/{{ header.illustration }}');background-size:cover;background-position:center;">
+                        <div class="container">
+                            <div class="carousel-caption text-left">
+                                <h1>{{ header.title }}</h1>
+                                <p>{{ header.content }}</p>
+                                <p><a class="btn btn-lg btn-info" href="{{ header.btnUrl }}" role="button">{{ header.btnTitle }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="container marketing {% if block('carousel') is not defined %}mt-5{% endif %}">
+            {% block content %}
+            {% endblock %}
         </div>
-        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-    {% endif %}
 
+        <footer class="my_footer">
+            <p>&copy; 2022- THE Boutique &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
+    </main>
 
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-
-    <div class="container marketing {% if block('carousel') is not defined %}mt-5{% endif %}">
-        {% block content %}
-        {% endblock %}
-    </div><!-- /.container -->
-
-    <!-- FOOTER -->
-    <footer class="my_footer">
-        {# <p class="float-right"><a href="#">Back to top</a></p> #}
-        <p>&copy; 2022- THE Boutique &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-    </footer>
-</main>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="{{asset('assets/js/bootstrap.bundle.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="{{asset('assets/js/bootstrap.bundle.js')}}"></script>
 </body>
+
 {% block stripe %}{% endblock %}
 </html>

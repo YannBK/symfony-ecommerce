@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block content %}
-
     <h1>Vérifier ma commande</h1>
 
     <div class="row">
@@ -57,40 +56,7 @@
             <form action="/commande/create-session/{{ reference }}" method="POST">
                 <button type="submit" class="btn btn-success btn-block mt-3" id="checkout-button">Payer {{ ((total / 100) + (carrier.price / 100))|number_format(2, ',', '.')}} €</button>
             </form>
-
-                {# <a class="btn btn-success btn-block mt-3" id="checkout-button">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',', '.')}} €</a> #}
-
         </div>
     </div>
 
 {% endblock %}
-{# 
-{% block stripe %}
-    <script type="text/javascript">
-        // Create an instance of the Stripe object with your publishable API key
-        var stripe = Stripe("sk_test_51Lai5LDy8BiugQdcGvycJoE2H48AwfAPwfWEaTamKiv731H5Gy49g9sKNDPOeJDXEDekP4exMduLawyEWWfTE5C300FbAu9R9J");
-        var checkoutButton = document.getElementById("checkout-button");
-        checkoutButton.addEventListener("click", function () {
-            fetch("/commande/create-session", {
-                method: "POST",
-            })
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (session) {
-                    return stripe.redirectToCheckout({ sessionId: session.id });
-                })
-                .then(function (result) {
-                    // If redirectToCheckout fails due to a browser or network
-                    // error, you should display the localized error message to your
-                    // customer using error.message.
-                    if (result.error) {
-                        alert(result.error.message);
-                    }
-                })
-                .catch(function (error) {
-                    console.error("Error:", error);
-                });
-        });
-    </script>
-{% endblock %} #}

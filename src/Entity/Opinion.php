@@ -64,14 +64,4 @@ class Opinion
 
         return $this;
     }
-
-    // public function countOpinions(): ?array
-    // {
-    //     if($this->opinion === true) {
-    //         return array('positive' => 1, 'negative' => 0);
-    //     } else if($this->opinion === false) {
-    //         return array('positive' => 0, 'negative' => 1);
-    //     }
-    //     return array('positive' => 0, 'negative' => 0);
-    // }
 }

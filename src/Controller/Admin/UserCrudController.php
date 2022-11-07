@@ -21,12 +21,10 @@ class UserCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        // $name = $this->getNameOf();
         return $crud
             ->setPageTitle('index', 'Utilisateurs')
             ->setPageTitle('new', 'Nouvel utilisateur')
             ->setPageTitle('edit', 'Modifier l\'utilisateur');
-            // ->setPageTitle('edit', $this->getNameOf());
     }
     
     public function configureActions(Actions $actions): Actions

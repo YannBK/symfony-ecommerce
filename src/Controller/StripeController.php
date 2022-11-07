@@ -30,13 +30,14 @@ class StripeController extends AbstractController
 
         
         foreach($order->getOrderDetails()->getValues() as $prod) {
-            $product_object = $entityManager->getRepository(Product::class)->findOneByName($prod->getProduct());
+            $product_object = $entityManager->getRepository(Product::class)->findOneByName($prod->getProductName());
+
             $products_for_stripe[] = [
                 'price_data' => [
                     'currency' => 'eur',
                     'unit_amount' => $prod->getPrice(),
                     'product_data' => [
-                        'name' => $prod->getProduct(),
+                        'name' => $prod->getProductName(),
                         'images' => [$YOUR_DOMAIN."/uploads/".$product_object->getIllustration()],
                     ],
                 ],
@@ -56,7 +57,6 @@ class StripeController extends AbstractController
         ];
 
         Stripe::setApiKey('sk_test_51Lai5LDy8BiugQdcGvycJoE2H48AwfAPwfWEaTamKiv731H5Gy49g9sKNDPOeJDXEDekP4exMduLawyEWWfTE5C300FbAu9R9J');
-
         
         $checkout_session = Session::create([
             'customer_email' => $this->getUser()->getEmail(),
@@ -72,7 +72,7 @@ class StripeController extends AbstractController
 
         $order->setStripeSessionId($checkout_session->id);
         $entityManager->flush();
-// dd($checkout_session->url);
+
         return($this->redirect($checkout_session->url));
     }
 }

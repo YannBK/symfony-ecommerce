@@ -36,9 +36,6 @@ class Order
     #[ORM\OneToMany(mappedBy: 'myOrder', targetEntity: OrderDetails::class)]
     private Collection $orderDetails;
 
-    // #[ORM\Column]
-    // private ?bool $isPaid = null;
-
     #[ORM\Column(length: 255)]
     private ?string $reference = null;
 
@@ -57,13 +54,6 @@ class Order
     {
         return $this->id;
     }
-
-    // public function setId(string $id): self
-    // {
-    //     $this->id = $id;
-
-    //     return $this;
-    // }
 
     public function getUser(): ?User
     {
@@ -157,17 +147,8 @@ class Order
 
     public function getTotal() {
         $total = null;
-        // foreach($this->getOrderDetails()->getValues() as $product) {
-        foreach($this->getOrderDetails()->getValues() as $product) {
-            dump($product);
-            // dump(gettype($product));
-            // dump(gettype($product->getTotal()));
-            // dump($total);
-            // dump($total + $product->getTotal());
-            // dd($product->getTotal());
 
-            // $subTotal = $product->getTotal();
-            // $total = $total + $subTotal;
+        foreach($this->getOrderDetails()->getValues() as $product) {
             $total = $total + $product->getTotal();
         };
         return $total;

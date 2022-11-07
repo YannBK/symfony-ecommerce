@@ -18,7 +18,7 @@ class OrderDetails
     private ?Order $myOrder = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $product = null;
+    private ?string $productName = null;
 
     #[ORM\Column]
     private ?int $quantity = null;
@@ -30,7 +30,8 @@ class OrderDetails
     private ?float $total = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderDetails')]
-    private ?Product $productId = null;
+    #[ORM\JoinColumn(nullable: true, onDelete:"SET NULL")]
+    private ?Product $product = null;
 
     public function __toString()
     {
@@ -54,14 +55,14 @@ class OrderDetails
         return $this;
     }
 
-    public function getProduct(): ?string
+    public function getProductName(): ?string
     {
-        return $this->product;
+        return $this->productName;
     }
 
-    public function setProduct(string $product): self
+    public function setProductName(string $productName): self
     {
-        $this->product = $product;
+        $this->productName = $productName;
 
         return $this;
     }
@@ -102,14 +103,14 @@ class OrderDetails
         return $this;
     }
 
-    public function getProductId(): ?Product
+    public function getProduct(): ?Product
     {
-        return $this->productId;
+        return $this->product;
     }
 
-    public function setProductId(?Product $productId): self
+    public function setProduct(?Product $product): self
     {
-        $this->productId = $productId;
+        $this->product = $product;
 
         return $this;
     }

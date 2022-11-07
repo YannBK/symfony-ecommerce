@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evaluez ce produit{% endblock %}
+
+{% block content %}
+    <h1>Evaluer ce produit</h1>
+    <div>
+        <a href="{{ path('app_account') }}">Mon compte</a> | 
+        <a href="{{ path('app_account_order') }}">Mes commandes</a>
+    </div>
+
+    <div class="row mt-5 pb-3">
+        <div class="col-md-3">
+            <img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid">
+        </div>
+        <div class="d-flex flex-column col-md-9 align-items-center justify-content-start">
+            <h5>{{product.name}}</h5>
+            <span class="product_subtitle mb-5">{{product.subtitle}}</span>
+            <p class="text-justify">{{product.description}}</p>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row d-flex flex-column col-md-12 align-items-center justify-content-between pt-5">
+        {% if existingNote is null %}
+            <h5>Notez ce produit</h5>
+        {% else %}
+            <div class="text-center mb-5">
+                <h5 class="mb-2">Votre note :</h5>
+                {% if stars > 0 %}
+                    {% for i in range(1, existingNote.note) %}
+                        <i class="fa-solid fa-star text-warning"></i>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <h5>Modifiez votre note :</h5>
+        {% endif %}
+
+        {{ form(noteForm) }}
+
+    </div>
+
+{% endblock %}

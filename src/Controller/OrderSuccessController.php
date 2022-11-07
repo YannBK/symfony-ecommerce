@@ -18,7 +18,6 @@ class OrderSuccessController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
     #[Route('/commande/merci/{stripeSessionId}', name: 'app_order_success')]
     public function index(Cart $cart, $stripeSessionId): Response
     {

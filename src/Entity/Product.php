@@ -41,13 +41,23 @@ class Product
     #[ORM\Column]
     private ?bool $isBest = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comment::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Note::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Note::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $notes;
+ 
+    #[ORM\Column(nullable: true)]
+    private ?int $averageNote = null;
 
-    #[ORM\OneToMany(mappedBy: 'product_id', targetEntity: OrderDetails::class)]
+    #[ORM\Column(nullable: true)]
+    private ?int $stars = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $halfStar = null;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetails::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private Collection $orderDetails;
 
     public function __construct()
@@ -219,6 +229,41 @@ class Product
         return $this;
     }
 
+    public function getAverageNote(): ?int
+    {
+        return $this->averageNote;
+    }
+
+    public function setAverageNote(int $averageNote): self
+    {
+        $this->averageNote = $averageNote;
+
+        return $this;
+    }
+
+    public function getStars(): ?int
+    {
+        return $this->stars;
+    }
+
+    public function setStars(int $stars): self
+    {
+        $this->stars = $stars;
+
+        return $this;
+    }
+    
+    public function getHalfStar(): ?int
+    {
+        return $this->halfStar;
+    }
+
+    public function setHalfStar(int $halfStar): self
+    {
+        $this->halfStar = $halfStar;
+
+        return $this;
+    }
     /**
      * @return Collection<int, OrderDetails>
      */
@@ -231,7 +276,7 @@ class Product
     {
         if (!$this->orderDetails->contains($orderDetail)) {
             $this->orderDetails->add($orderDetail);
-            $orderDetail->setProductId($this);
+            $orderDetail->setProduct($this);
         }
 
         return $this;
@@ -241,8 +286,8 @@ class Product
     {
         if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
-            if ($orderDetail->getProductId() === $this) {
-                $orderDetail->setProductId(null);
+            if ($orderDetail->getProduct() === $this) {
+                $orderDetail->setProduct(null);
             }
         }
 

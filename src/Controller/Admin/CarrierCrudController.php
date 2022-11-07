@@ -28,12 +28,10 @@ class CarrierCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        // $name = $this->getNameOf();
         return $crud
             ->setPageTitle('index', 'Transporteurs')
             ->setPageTitle('new', 'Nouveau transporteur')
             ->setPageTitle('edit', 'Modifier le transporteur');
-            // ->setPageTitle('edit', $this->getNameOf());
     }
 
     public function configureFields(string $pageName): iterable

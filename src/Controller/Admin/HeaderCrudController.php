@@ -28,12 +28,10 @@ class HeaderCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        // $name = $this->getNameOf();
         return $crud
             ->setPageTitle('index', 'Vos headers')
             ->setPageTitle('new', 'Nouveau header')
             ->setPageTitle('edit', 'Modifier le header');
-            // ->setPageTitle('edit', $this->getNameOf());
     }
 
     public function configureFields(string $pageName): iterable
@@ -50,5 +48,4 @@ class HeaderCrudController extends AbstractCrudController
                 ->setRequired((false)),
         ];
     }
-    
 }

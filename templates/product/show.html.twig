@@ -5,82 +5,69 @@
 {% block content %}
     {# {{dump(product)}} #}
     <div class="row product_container">
-            <div class="col-md-5">
-                <img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid">
-            </div>
-            <div class="col-md-7 my-auto">
-                <h3>{{product.name}}</h3>
-                {% for note in product.notes %}
-                <p class="product_note fa fa-star text-warning">mettre de jolies étoiles à la place de cette note{{ note.note }}</p>
+        <div class="col-md-5">
+            <img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid">
+        </div>
+        <div class="col-md-7 my-auto">
+            <h3>{{product.name}}</h3>
+            {% if stars > 0 %}
+                {% for i in range(1, stars) %}
+                    <i class="fa-solid fa-star text-warning"></i>
                 {% endfor %}
-                <p class="product_subtitle">{{product.subtitle}}</p>
-                <p class="product_price">{{ (product.price / 100)|number_format(2, ',', '.')}} €</p>
-                <hr>
-                <p>{{ product.description }}</p>
-                <a href="{{ path('app_add_to_cart', { 'id' : product.id})}}" class="btn btn-primary">Ajouter au panier</a>
-            </div>
+            {% endif %}
+            {% if halfStar > 0 %}
+                {% for i in range(1, halfStar) %}
+                    <i class="fa-solid fa-star-half text-warning"></i>
+                {% endfor %}
+            {% endif %}
+
+            <p class="product_subtitle">{{product.subtitle}}</p>
+            <p class="product_price">{{ (product.price / 100)|number_format(2, ',', '.')}} €</p>
+            <hr>
+            <p>{{ product.description }}</p>
+            <a href="{{ path('app_add_to_cart', { 'id' : product.id})}}" class="btn btn-primary">Ajouter au panier</a>
+        </div>
     </div>
-    
-
-
-
-
 
     <div class="container mt-5">
-
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
             <div class="row  d-flex justify-content-center">
-
                 <div class="col-md-8">
-
                     <div class="headings d-flex justify-content-between align-items-center mb-3">
                         <h5>Avis des acheteurs({{ comments|length }})</h5>
-                        {# <div class="buttons">
-                            <span class="badge bg-white d-flex flex-row align-items-center">
-                                <span class="text-primary">Comments "ON"</span>
-                                <div class="form-check form-switch">
-                                  <a href="{{ path('app_add_comment', { 'id' : product.id})}}" class="btn btn-primary">Ajouter au panier</a>
+                    </div>
+                    {% for comment in comments %}
+                        <div class="card p-3 mt-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="user d-flex flex-row align-items-center">
+                                    {% if comment.user.avatar %}
+                                        <img src="/uploads/{{comment.user.avatar}}" width="30" class="user-img rounded-circle mr-2">
+                                    {% else %}
+                                        <i class="fa-solid fa-user fa-2x  mr-2"></i>
+                                    {% endif %}
+                                    <span>
+                                        <small class="font-weight-bold text-primary">{{ comment.user.firstname }} {{ comment.user.lastname }}</small>
+                                        </br>
+                                        <small class="font-weight-bold">{{ comment.text }}</small>
+                                    </span>  
                                 </div>
-                            </span>
-                        </div> #}
-                    </div>
-{% for comment in comments %}
-                    <div class="card p-3 mt-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center">
-                                <img src="/uploads/{{comment.user.avatar}}" width="30" class="user-img rounded-circle mr-2">
-                                {# TODO icone utilisateur de font awesome #}
-                                {# TODO intégrer awesome #}
-
-                                <span>
-                                    <small class="font-weight-bold text-primary">{{ comment.user.firstname }} {{ comment.user.lastname }}</small>
-                                    </br>
-                                    <small class="font-weight-bold">{{ comment.text }}</small>
-                                </span>  
+                                <small class="ml-3 days">{{ comment.days }}</small>
                             </div>
-                            <small class="ml-3 days">{{ comment.days }}</small>
+                            <div class="action d-flex justify-content-end mt-2 align-items-center">
+                                <div class="icons align-items-center">
+                                    <a href=" {{ path('app_opinion',{commentId : comment.id, productSlug : product.slug, choice : 'false'}) }}">
+                                        <i class="fa-regular fa-thumbs-down text-danger"> : {{ comment.lastOpinion.negative }}</i>
+                                    </a>
+                                    <a href=" {{ path('app_opinion',{commentId : comment.id, productSlug : product.slug, choice : 'true'}) }}">
+                                        <i class="fa-regular fa-thumbs-up text-success"> : {{ comment.lastOpinion.positive }}</i> 
+                                    </a>
+                                </div>
+                            </div> 
                         </div>
-                        <div class="action d-flex justify-content-between mt-2 align-items-center">
-                            <div class="reply px-4">
-                                <small>Répondre</small>
-                                {# TODO permettre de répondre #}
-                            </div>
-
-                            <div class="icons align-items-center">
-                            {# TODO ici système de réputation #}
-                            {# TODO laisser tout le monde cliquer, mais si ce n'est qu'un visiteur non enregistrer, le renvoyer vers la page de connexion avec un petit addFlash #}
-
-                                <i class="fa fa-star text-warning">positifs : {{ comment.lastOpinion.positive }}</i>
-                                <i class="fa fa-check-circle-o check-icon">négatifs : {{ comment.lastOpinion.negative }}</i> 
-                            </div>
-                        </div> 
-                    </div>
-{% endfor %}
-
-                    
+                    {% endfor %}
                 </div>
-                
             </div>
-            
         </div>
-
 {% endblock %}

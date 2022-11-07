@@ -1,15 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RegisterController!{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block content %}
     <h1>Page d'inscription</h1>
-
-    {# {% if notification %}
-        <div class="alert alert-info">{{ notification }}</div>
-        <hr>
-    {% endif %} #}
-
     {% for message in app.flashes('notice') %}
         <div class="alert alert-info">{{ message }}</div>
     {% endfor %}

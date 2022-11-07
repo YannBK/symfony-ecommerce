@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Classe\Search;
 use App\Entity\Product;
 use App\Entity\Comment;
+use App\Entity\Note;
+use App\Repository\CommentRepository;
 use App\Entity\Opinion;
 // use App\Repository\OpinionRepository;
 use App\Form\SearchType;
@@ -25,7 +27,6 @@ class ProductController extends AbstractController
     #[Route('/nos-produits', name: 'app_products')]
     public function index(Request $request): Response
     {
-        
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
         
@@ -46,57 +47,31 @@ class ProductController extends AbstractController
 
 
     #[Route('/produit/{slug}', name: 'app_product')]
-    public function show($slug): Response
+    public function show($slug, CommentRepository $commentRepository): Response
     {
-    //  produit
         $product = $this->entityManager->getRepository(Product::class)->findOneBySlug($slug);
 
         if(!$product) {
             return $this->redirectToRoute('app_products');
         }
 
-    // commentaires
         $comments = $this->entityManager
             ->getRepository(Comment::class)
             ->findBy(array('product' => $product->getId()), array('createdAt' => 'DESC'));
         
-        $time = new \DateTime('now');
         foreach ( $comments as $comment ) {
+            $commentRepository->updateDays($comment, true);
 
-            // jours passés
-            $days = $time->diff($comment->getCreatedAt());
-
-            if($days->format('%a') === "0") {
-                $timeNotif = $days->format('il y a %a jour');
-            } else {
-                $timeNotif = $days->format('il y a %a jours');
-            }
-            
-            $comment->setDays($timeNotif);
-
-            // opinions
-            $opinions = $comment->getOpinions()->toArray();
-            $positive = 0;
-            $negative = 0;
-
-            foreach( $opinions as $opinion ) {
-                if($opinion->isOpinion() === true) {
-                    $positive = $positive + 1;
-                } else if($opinion->isOpinion() === false) {
-                    $negative = $negative + 1;
-                }
-            }
-
-            $comment->setLastOpinion(array('positive' => $positive, 'negative' => $negative));
-
-            $this->entityManager->persist($comment);
+            $commentRepository->updateOpinions($comment, true);
         }
 
-        $this->entityManager->flush();
+        $note = $this->entityManager->getRepository(Note::class)->averageNoteToStars($product);
 
         return $this->render('product/show.html.twig', [
             'product' => $product,
-            'comments' => $comments
+            'comments' => $comments, 
+            'stars' => $note['stars'],
+            'halfStar' => $note['halfStar']
         ]);
     }
 }

@@ -25,12 +25,10 @@ class CategoryCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        // $name = $this->getNameOf();
         return $crud
             ->setPageTitle('index', 'Vos catégories')
             ->setPageTitle('new', 'Nouvelle catégorie')
             ->setPageTitle('edit', 'Modifier la catégorie');
-            // ->setPageTitle('edit', $this->getNameOf());
     }
 
 }

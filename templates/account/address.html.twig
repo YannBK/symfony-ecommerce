@@ -10,7 +10,7 @@
     <a href="{{ path('app_account') }}">Retour au compte</a>
     <hr>
     {% if app.user.addresses|length == 0 %}
-        <p class="text-center">Vous n'avez pas encore ajouter d'adresse. Pour en ajouter une <a href="">cliquez ici!</a></p>
+        <p class="text-center">Vous n'avez pas encore ajouter d'adresse.</p>
     {% else %}
         <div class="row">
         {% for address in app.user.addresses %}
@@ -23,7 +23,8 @@
                             {{ address.postal }} - {{ address.city }}<br>
                             {{ address.country }}
                         </p>
-                        <a href="{{ path('app_account_address_edit', { 'id' : address.id }) }}">Modifier</a> | <a href="{{ path('app_account_address_delete', { 'id' : address.id }) }}">Supprimer</a>
+                        <a href="{{ path('app_account_address_edit', { 'id' : address.id }) }}">Modifier</a> | 
+                        <a href="{{ path('app_account_address_delete', { 'id' : address.id }) }}">Supprimer</a>
                     </div>
                 </div>
             </div>

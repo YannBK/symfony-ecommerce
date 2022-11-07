@@ -1,9 +1,10 @@
 <div class="product_item text-center">
-    <a href="{{ path('app_product', { 'slug' : product.slug }) }}"><img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid"></a>
+{# TODO fixer la taille (hauteur) des single product (image...) #}
+{# TODO lors de l'upload des images, créer différents formats, stockés en bdd comme pour le Torchon #}
+    <a href="{{ path('app_product', { 'slug' : product.slug }) }}">
+        <img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid">
+    </a>
     <h5>{{product.name}}</h5>
     <span class="product_subtitle">{{product.subtitle}}</span>
-    {% for note in product.notes %}
-    <span class="product_note fa fa-star text-warning">{{ note.note}} étoiles</span>
-    {% endfor %}
     <span class="product_price">{{ (product.price / 100)|number_format(2, ',', '.')}} €</span>
 </div>

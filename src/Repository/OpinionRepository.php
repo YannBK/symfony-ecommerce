@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Opinion;
-use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,29 +38,4 @@ class OpinionRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-//    /**
-//     * @return Opinion[] Returns an array of Opinion objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function countPositiveOpinions(Comment $comment)
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.comment = :com')
-//            ->setParameter('com', $comment)
-//            ->select('SUM(o.opinions)')
-//            ->getQuery()
-//            ->getOneOrNullResult();
-//    }
 }

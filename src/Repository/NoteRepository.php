@@ -40,27 +40,22 @@ class NoteRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Note[] Returns an array of Note objects
+//     * @return [] Returns an array of stars to display
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('n.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function averageNoteToStars($product): array
+   {
+       $avg =  $this->createQueryBuilder('n')
+           ->andWhere('n.product = :product')
+           ->setParameter('product', $product)
+           ->select('AVG(n.note) as average')
+           ->getQuery()
+           ->getOneOrNullResult();
+        
+        $stars = round($avg['average'], 0, PHP_ROUND_HALF_DOWN);
+        $dec = $avg['average']-$stars;
+        $dec > 0.7 ? $stars++ : 
+            ($dec > 0.3 ? $halfStar = 1 : $halfStar = 0);
 
-//    public function findOneBySomeField($value): ?Note
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return array('stars' => $stars, 'halfStar' => $halfStar);
+   }
 }

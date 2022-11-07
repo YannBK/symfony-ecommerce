@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class OrderController extends AbstractController
 {
     private $entityManager;
@@ -41,7 +40,6 @@ class OrderController extends AbstractController
     #[Route('/commande/recapitulatif', name: 'app_order_recap', methods:"POST")]
     public function add(Cart $cart, Request $request): Response
     {
-
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
@@ -62,8 +60,6 @@ class OrderController extends AbstractController
             $delivery_content .= '</br>'.$delivery->getPostal();
             $delivery_content .= ' '.$delivery->getCity();
             $delivery_content .= '</br>'.$delivery->getCountry();
-            // $delivery_content .= '</br></br>'.$delivery->getPhone();
-
 
             $order = new Order();
             $order->setReference($date->format('dmY').'_'.uniqid());
@@ -77,11 +73,10 @@ class OrderController extends AbstractController
             $this->entityManager->persist($order);
 
             foreach($cart->getFull() as $prod) {
-                // dd($prod);
                 $orderDetail = new OrderDetails();
                 $orderDetail->setMyOrder(($order));
-                $orderDetail->setProduct(($prod['product']->getName()));
-                $orderDetail->setProductId(($prod['product']));
+                $orderDetail->setProductName(($prod['product']->getName()));
+                $orderDetail->setProduct(($prod['product']));
                 $orderDetail->setQuantity(($prod['quantity']));
                 $orderDetail->setPrice(($prod['product']->getPrice()));
                 $orderDetail->setTotal(($prod['product']->getPrice() * $prod['quantity']));
@@ -101,5 +96,4 @@ class OrderController extends AbstractController
 
         return $this->redirectToRoute(('app_cart'));
     }
-
 }
