@@ -7,7 +7,7 @@
         {% for message in app.flashes('notice') %}
             <div class="alert alert-info">{{ message }}</div>
         {% endfor %}
-        <form method="post">{# TODO action #}
+        <form method="post">
             <h1 class="h3 mb-3 font-weight-normal">Mot de passe oublié ?</h1>
             <label for="inputEmail">Votre email</label>
             <input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" placeholder="Votre email" required autofocus>

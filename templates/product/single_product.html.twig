@@ -1,10 +1,22 @@
-<div class="product_item text-center">
-{# TODO fixer la taille (hauteur) des single product (image...) #}
-{# TODO lors de l'upload des images, créer différents formats, stockés en bdd comme pour le Torchon #}
-    <a href="{{ path('app_product', { 'slug' : product.slug }) }}">
-        <img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid">
+<div class="product_item text-center d-flex flex-column justify-content-between">
+    <a href="{{ path('app_product', { 'slug' : product.slug }) }}" class="d-flex flex-column justify-content-between">
+        <div class="mb-2">
+            <img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid">
+        </div>
+        <div>
+            <h5>{{product.name}}</h5>
+            {% if product.stars > 0 %}
+                {% for i in range(1, product.stars) %}
+                    <i class="fa-solid fa-star text-warning"></i>
+                {% endfor %}
+            {% endif %}
+            {% if product.halfStar > 0 %}
+                {% for i in range(1, product.halfStar) %}
+                    <i class="fa-solid fa-star-half text-warning"></i>
+                {% endfor %}
+            {% endif %}
+            <span class="product_subtitle">{{product.subtitle}}</span>
+            <span class="product_price">{{ (product.price / 100)|number_format(2, ',', '.')}} €</span>
+        </div>
     </a>
-    <h5>{{product.name}}</h5>
-    <span class="product_subtitle">{{product.subtitle}}</span>
-    <span class="product_price">{{ (product.price / 100)|number_format(2, ',', '.')}} €</span>
 </div>

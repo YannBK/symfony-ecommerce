@@ -3,20 +3,19 @@
 {% block title %}{{product.name}}{% endblock %}
 
 {% block content %}
-    {# {{dump(product)}} #}
     <div class="row product_container">
         <div class="col-md-5">
             <img src="/uploads/{{product.illustration}}" alt="{{product.subtitle}}" class="img-fluid">
         </div>
         <div class="col-md-7 my-auto">
             <h3>{{product.name}}</h3>
-            {% if stars > 0 %}
-                {% for i in range(1, stars) %}
+            {% if product.stars > 0 %}
+                {% for i in range(1, product.stars) %}
                     <i class="fa-solid fa-star text-warning"></i>
                 {% endfor %}
             {% endif %}
-            {% if halfStar > 0 %}
-                {% for i in range(1, halfStar) %}
+            {% if product.halfStar > 0 %}
+                {% for i in range(1, product.halfStar) %}
                     <i class="fa-solid fa-star-half text-warning"></i>
                 {% endfor %}
             {% endif %}

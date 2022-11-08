@@ -65,13 +65,9 @@ class ProductController extends AbstractController
             $commentRepository->updateOpinions($comment, true);
         }
 
-        $note = $this->entityManager->getRepository(Note::class)->averageNoteToStars($product);
-
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'comments' => $comments, 
-            'stars' => $note['stars'],
-            'halfStar' => $note['halfStar']
         ]);
     }
 }

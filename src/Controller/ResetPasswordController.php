@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Dotenv\Dotenv;
 
 class ResetPasswordController extends AbstractController
 {
@@ -50,7 +51,11 @@ class ResetPasswordController extends AbstractController
                 $content = "Bonjour ".$user->getFirstname()." ".$user->getLastname()."<br><br>Vous avez demandé à réinitialiser votre mot de passe sur le site THE boutique.com<br><br>";
                 $content .= "Merci de bien vouloir cliquer sur <a href='".$url."'>le lien suivant</a> pour mettre à jour votre mot de passe.";
 
-                $mail = new Mail();
+                $dotenv = new Dotenv();
+                $rootPath = $this->getParameter('kernel.project_dir');
+                $dotenv->load($rootPath.'/.env');
+
+                $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
                 $mail->send($user->getEmail(), $user->getFirstname().' '.$user->getLastname(), "Réinitialisez votre mot de passe sur THE boutique", $content);
 
                 $this->addFlash('notice', 'Vous allez recevoir un mail avec la procédure pour réinitialiser votre mot de passe.');

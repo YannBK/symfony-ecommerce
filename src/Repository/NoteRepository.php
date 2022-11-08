@@ -56,6 +56,6 @@ class NoteRepository extends ServiceEntityRepository
         $dec > 0.7 ? $stars++ : 
             ($dec > 0.3 ? $halfStar = 1 : $halfStar = 0);
 
-        return array('stars' => $stars, 'halfStar' => $halfStar);
+        return array('average' => $avg['average'], 'stars' => $stars, 'halfStar' => $halfStar);
    }
 }

@@ -9,7 +9,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\PasswordField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserCrudController extends AbstractCrudController
@@ -40,10 +42,26 @@ class UserCrudController extends AbstractCrudController
         return [
             TextField::new('firstname', 'Prénom'),
             TextField::new('lastname', 'Nom'),
-            EmailField::new('email', 'Email')
+            EmailField::new('email', 'Email'),
+            ArrayField::new('roles', 'Rôles')->onlyOnIndex(),
+            ChoiceField::new('roles', 'Rôles')
+                ->allowMultipleChoices()
+                ->onlyOnForms()
+                ->setChoices([
+                    'Utilisateur'  => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN'
+                ]),
+            TextField::new( 'password', 'Mot de passe' )
+                ->onlyWhenCreating()
+                ->setRequired( true )
+                ->setFormType( RepeatedType::class )
+                ->setFormTypeOptions( [
+                    'type'            => PasswordType::class,
+                    'first_options'   => [ 'label' => 'Mot de passe' ],
+                    'second_options'  => [ 'label' => 'Répétez le mot de passe' ],
+                    'error_bubbling'  => true,
+                    'invalid_message' => 'Les mots de passe ne sont pas identiques.',
+                ]),
         ];
-        //TODO dans create user=>rensigner le password
-
     }
-    
 }

@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    private array $roles = [];
+    private array $roles = ["ROLE_USER"];
 
     /**
      * @var string The hashed password
@@ -348,7 +348,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeContact(Contact $contact): self
     {
         if ($this->contacts->removeElement($contact)) {
-            // set the owning side to null (unless already changed)
+
             if ($contact->getUser() === $this) {
                 $contact->setUser(null);
             }

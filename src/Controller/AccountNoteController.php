@@ -25,6 +25,7 @@ class AccountNoteController extends AbstractController
     {
         $product = $this->entityManager->getRepository(Product::class)->findOneBy(array('id' => $id));
         $user = $this->getUser();
+        $stars = $this->entityManager->getRepository(Note::class)->averageNoteToStars($product);
         
         $existingNote = null;
         $checkNote = $this->entityManager
@@ -51,10 +52,18 @@ class AccountNoteController extends AbstractController
             $this->entityManager->persist($note);
             $this->entityManager->flush();
 
+            $newStars = $this->entityManager->getRepository(Note::class)->averageNoteToStars($product);
+
+            $product->setAverageNote($newStars['average']);
+            $product->setStars($newStars['stars']);
+            $product->setHalfStar($newStars['halfStar']);
+
+            $this->entityManager->persist($product);
+            $this->entityManager->flush();
+
             return $this->redirectToRoute('app_account_note', array('id' => $id));
         }
 
-        $stars = $this->entityManager->getRepository(Note::class)->averageNoteToStars($product);
 
         return $this->render('account/note.html.twig', [
             'product' => $product,

@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Dotenv\Dotenv;
 
 class StripeController extends AbstractController
 {
@@ -24,11 +25,9 @@ class StripeController extends AbstractController
         $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
 
         if(!$order){
-            // $error = new JsonResponse(['error' => 'order']);
             return($this->redirect('/commande'));
         };
 
-        
         foreach($order->getOrderDetails()->getValues() as $prod) {
             $product_object = $entityManager->getRepository(Product::class)->findOneByName($prod->getProductName());
 
@@ -56,13 +55,15 @@ class StripeController extends AbstractController
             'quantity' => 1,
         ];
 
-        Stripe::setApiKey('sk_test_51Lai5LDy8BiugQdcGvycJoE2H48AwfAPwfWEaTamKiv731H5Gy49g9sKNDPOeJDXEDekP4exMduLawyEWWfTE5C300FbAu9R9J');
+        $dotenv = new Dotenv();
+        $rootPath = $this->getParameter('kernel.project_dir');
+        $dotenv->load($rootPath.'/.env');
+
+        Stripe::setApiKey($_ENV['STRIPE_API_KEY']);
         
         $checkout_session = Session::create([
             'customer_email' => $this->getUser()->getEmail(),
             'line_items' => [[
-                # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-                // 'price' => 4,
                 $products_for_stripe
             ]],
             'mode' => 'payment',

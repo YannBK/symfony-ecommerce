@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Dotenv\Dotenv;
 
 class OrderSuccessController extends AbstractController
 {
@@ -32,7 +33,11 @@ class OrderSuccessController extends AbstractController
             $order->setState(1);
             $this->entityManager->flush();
 
-            $mail = new Mail();
+            $dotenv = new Dotenv();
+            $rootPath = $this->getParameter('kernel.project_dir');
+            $dotenv->load($rootPath.'/.env');
+
+            $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
             $mailContent = "Bonjour ".$order->getUser()->getFirstname()."<br>Votre commande n° ".$order->getReference()." est bien validée!";
             $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstname(), 'Commande validée', $mailContent);
         }

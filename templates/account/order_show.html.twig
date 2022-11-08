@@ -47,9 +47,11 @@
                 <td>{{ (product.price / 100)|number_format(2,',','.') }} €</td>
                 <td>{{ (product.total / 100)|number_format(2,',','.') }} €</td>
 
-                <td><a href="{{ path('app_account_comment', { 'id' : product.product.id }) }}" class="btn btn-warning">Laisser un commentaire</a></td>
+                {% if product.product %}
+                    <td><a href="{{ path('app_account_comment', { 'id' : product.product.id }) }}" class="btn btn-warning">Laisser un commentaire</a></td>
 
-                <td><a href="{{ path('app_account_note', { 'id' : product.product.id }) }}" class="btn btn-warning">Laisser une note</a></td>
+                    <td><a href="{{ path('app_account_note', { 'id' : product.product.id }) }}" class="btn btn-warning">Laisser une note</a></td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>

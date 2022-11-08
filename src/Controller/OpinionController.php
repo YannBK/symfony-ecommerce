@@ -29,7 +29,7 @@ class OpinionController extends AbstractController
 
         $comment = $this->entityManager->getRepository(Comment::class)->findOneBy(array('id'=>$commentId));
         
-        $authorMoche = $this->entityManager->getRepository(User::class)->findOneBy(array('id'=>$comment->getUser()->getId()));
+        $authorMoche = $this->entityManager->getRepository(User::class)->findOneBy(array('id' => $comment->getUser()->getId()));
         $author = $comment->getUser();
 // dump($authorMoche);
 // dd($author);
@@ -57,14 +57,5 @@ class OpinionController extends AbstractController
         $this->entityManager->flush();
 
         return $this->redirectToRoute('app_product', ['slug' => $productSlug]);
-    }
-
-    // TODO ça sert ??
-    #[Route('/opinion/minus/{commentId}', name: 'app_opinion_negative')]
-    public function negativeOpinion(string $commentId): Response
-    {
-        return $this->render('opinion/index.html.twig', [
-            'controller_name' => 'OpinionController',
-        ]);
     }
 }

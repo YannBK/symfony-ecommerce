@@ -11,6 +11,7 @@ use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;//permet d'accéder au manager d'entités de doctrine
 use Symfony\Component\HttpFoundation\Request; //permet d'acceder aux requêtes http
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface; //pouvoir acceder aux fonctions de hash
+use Symfony\Component\Dotenv\Dotenv;
 
 class RegisterController extends AbstractController
 {
@@ -41,7 +42,11 @@ class RegisterController extends AbstractController
                 $this->entityManager->persist($user);//on dit qu'on veut éventuellement sauver ces données (on les fige)
                 $this->entityManager->flush();//on exécute la requête(insert)
 
-                $mail = new Mail();
+                $dotenv = new Dotenv();
+                $rootPath = $this->getParameter('kernel.project_dir');
+                $dotenv->load($rootPath.'/.env');
+
+                $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
                 $mailContent = "Bonjour nouvel inscrit ".$user->getFirstname()."<br>Bienvenue!";
                 $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur la boutique ultime', $mailContent);
 

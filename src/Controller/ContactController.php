@@ -35,12 +35,12 @@ class ContactController extends AbstractController
             $formData = $form->getData();
 
             $subject = $formData['subject'];
-//TODO améliorer le design du mail
-            $content = "Message de :\n".$formData['firstname']." ".$formData['lastname']."\n";
-            $content .= "Email de réponse :\n".$formData['email']."\n";
-            $content .= "Message :\n".$formData['content'];
 
-            $mail = new Mail();
+            $content = "Message de :<br>".$formData['firstname']." ".$formData['lastname']."<br><br>";
+            $content .= "Email de réponse :<br>".$formData['email']."<br><br>";
+            $content .= "Message :<br>".$formData['content'];
+
+            $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
             $mail->send($_ENV['CONTACT_EMAIL'], "admin", "THEBoutik-".$subject, $content);
 
             $date = new DateTime();

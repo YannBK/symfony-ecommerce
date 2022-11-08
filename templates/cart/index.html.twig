@@ -28,21 +28,18 @@
                     </td>
                     <td>
                         <a href="{{ path('app_decrease_to_cart', { id : product.product.id }) }}">
-                        {# TODO remplacer par font awesome #}
-                            <img src="{{ asset('assets/image/moins.png') }}" alt="enlèvement de produit" class="plusmoins">
+                            <i class="fa-solid fa-circle-minus text-danger fa-xl mr-2"></i>
                         </a>
                         x {{ product.quantity }}
                         <a href="{{ path('app_add_to_cart', { id : product.product.id }) }}">
-                        {# TODO remplacer par font awesome #}
-                            <img src="{{ asset('assets/image/plus.png') }}" alt="ajout de produit" class="plusmoins">
+                            <i class="fa-solid fa-circle-plus text-primary fa-xl ml-2"></i>
                         </a>
                     </td>
                     <td>{{ (product.product.price / 100)|number_format(2, ',', '.') }} €</td>
                     <td>{{ ((product.product.price * product.quantity) / 100)|number_format(2, ',', '.') }} €</td>
                     <td>
                         <a href="{{ path('app_delete_to_cart', { 'id' : product.product.id }) }}">
-                        {# TODO remplacer par font awesome #}
-                            <img src="{{ asset('assets/image/delete.png') }}" alt="suppression de produit" height='20px'>
+                            <i class="fa-regular fa-trash-can text-secondary fa-xl"></i>
                         </a>
                     </td>
                 </tr>
