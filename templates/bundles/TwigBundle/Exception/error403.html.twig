@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Erreur{% endblock %}
+{% block title %}Non autorisé{% endblock %}
 
 {% block content %}
     <div class="block_small">
-        <h2>Une erreur s'est produite :(</h2>
-        <p>Cette page ne semble pas être accessible.</p>
+        <h2>Erreur 403 : page non autorisée.</h2>
+        <p>Vous ne semblez pas avoir les droits pour accéder à cette page.</p>
         <a href="{{ path('app_home') }}" class="btn btn-info">Revenir à l'accueil</a>
     </div>
 {% endblock %}

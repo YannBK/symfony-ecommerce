@@ -24,7 +24,7 @@ class Mail
                 [
                     'From' => [
                         'Email' => "akryjnid888@hotmail.fr",
-                        'Name' => "Boutique TEST"
+                        'Name' => "MossHeaven"
                     ],
                     'To' => [
                         [

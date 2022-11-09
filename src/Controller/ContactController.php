@@ -41,7 +41,7 @@ class ContactController extends AbstractController
             $content .= "Message :<br>".$formData['content'];
 
             $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
-            $mail->send($_ENV['CONTACT_EMAIL'], "admin", "THEBoutik-".$subject, $content);
+            $mail->send($_ENV['CONTACT_EMAIL'], "admin", "MossHeaven-".$subject, $content);
 
             $date = new DateTime();
             $contact = new Contact();

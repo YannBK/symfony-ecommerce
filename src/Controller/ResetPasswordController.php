@@ -48,7 +48,7 @@ class ResetPasswordController extends AbstractController
                 //envoie un mail à l'utilisateur avec un lien permettant de mettre à jour son mdp
                 $url = $this->generateUrl("app_update_password", ['token' => $reset_password->getToken()]);
 
-                $content = "Bonjour ".$user->getFirstname()." ".$user->getLastname()."<br><br>Vous avez demandé à réinitialiser votre mot de passe sur le site THE boutique.com<br><br>";
+                $content = "Bonjour ".$user->getFirstname()." ".$user->getLastname()."<br><br>Vous avez demandé à réinitialiser votre mot de passe sur le site mossheaven.test-bettk.eu<br><br>";
                 $content .= "Merci de bien vouloir cliquer sur <a href='".$url."'>le lien suivant</a> pour mettre à jour votre mot de passe.";
 
                 $dotenv = new Dotenv();
@@ -56,7 +56,7 @@ class ResetPasswordController extends AbstractController
                 $dotenv->load($rootPath.'/.env');
 
                 $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
-                $mail->send($user->getEmail(), $user->getFirstname().' '.$user->getLastname(), "Réinitialisez votre mot de passe sur THE boutique", $content);
+                $mail->send($user->getEmail(), $user->getFirstname().' '.$user->getLastname(), "Réinitialisez votre mot de passe sur MossHeaven", $content);
 
                 $this->addFlash('notice', 'Vous allez recevoir un mail avec la procédure pour réinitialiser votre mot de passe.');
             } else {
