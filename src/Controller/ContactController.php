@@ -56,7 +56,7 @@ class ContactController extends AbstractController
             $user = $this->entityManager->getRepository(User::class)->findOneByEmail($formData['email']);
             
             if($user){
-                $contact->setUser($user[0]);
+                $contact->setUser($user);
             }
             $this->entityManager->persist($contact);
             $this->entityManager->flush();

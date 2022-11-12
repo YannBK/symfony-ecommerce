@@ -6,11 +6,11 @@ use App\Classe\Mail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\User; //import de l'entity User
+use App\Entity\User;
 use App\Form\RegisterType;
-use Doctrine\ORM\EntityManagerInterface;//permet d'accéder au manager d'entités de doctrine
-use Symfony\Component\HttpFoundation\Request; //permet d'acceder aux requêtes http
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface; //pouvoir acceder aux fonctions de hash
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
 class RegisterController extends AbstractController
@@ -22,25 +22,23 @@ class RegisterController extends AbstractController
     }
 
     #[Route('/inscription', name: 'app_register')]
-    public function index(Request $request, UserPasswordHasherInterface $encoder): Response //Request permet d'écouter les requêtes http
+    public function index(Request $request, UserPasswordHasherInterface $encoder): Response
     {
-        $notification = null;
-        $user = new User(); //nouvelle instance de User
-        $form = $this->createForm(RegisterType::class, $user); //création du formulaire
+        $user = new User();
+        $form = $this->createForm(RegisterType::class, $user);
 
-        $form->handleRequest($request); //on demande au formulaire d'être à l'écoute d'une requête ( de soumission)
-        if($form->isSubmitted() && $form->isValid()) {//si le formulaire est submit && valide(par rapport à ce qui est défini dans RegisterType)
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
 
-            $user = $form->getData();//on remplit l'instance $user avec les données du formulaire
+            $user = $form->getData();
 
             $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
             if(!$search_email){
-                //dd($user); // <=> die(var_dump()) en mieux
                 $password = $encoder->hashPassword($user, $user->getPassword());
                 $user->setPassword($password);
     
-                $this->entityManager->persist($user);//on dit qu'on veut éventuellement sauver ces données (on les fige)
-                $this->entityManager->flush();//on exécute la requête(insert)
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
 
                 $dotenv = new Dotenv();
                 $rootPath = $this->getParameter('kernel.project_dir');
@@ -48,23 +46,19 @@ class RegisterController extends AbstractController
 
                 $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
                 $mailContent = "Bonjour nouvel inscrit ".$user->getFirstname()."<br>Bienvenue!";
-                $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur la boutique ultime', $mailContent);
-
-                // $notification = "Votre inscription s'est bien déroulée, vous pouvez vous connecter";
+                $mail->send($user->getEmail(), $user->getFirstname(), 'Arrivée à MossHeaven', $mailContent);
 
                 $this->addFlash('notice', "Votre inscription s'est bien déroulée, vous pouvez vous connecter");
 
                 return $this->redirectToRoute('app_login', array('error' => null,
                     'last_username' => null));
             } else {
-                // $notification = "L'email utilisé existe déjà.";
                 $this->addFlash('notice', "L'email utilisé existe déjà.");
             }
         }
 
         return $this->render('register/index.html.twig', [
-            'form' => $form->createView()//,
-            //'notification' => $notification
+            'form' => $form->createView()
         ]);
     }
 }

@@ -13,7 +13,6 @@ class Search
      * @var Category[]
      */
     public $categories = [];
-
 }
 
 ?>

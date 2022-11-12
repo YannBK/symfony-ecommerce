@@ -35,7 +35,7 @@ class OrderDetails
 
     public function __toString()
     {
-        return $this->getProduct().' x '.$this->getQuantity();
+        return $this->getProductName().' x '.$this->getQuantity();
     }
 
     public function getId(): ?int

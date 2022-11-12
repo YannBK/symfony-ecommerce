@@ -36,7 +36,7 @@ class ChangePasswordType extends AbstractType
                     'placeholder' => "Veuillez saisir votre mot de passe actuel"
                 ]
             ])
-            ->add('new_password', RepeatedType::class, [ //RepeatedType permet de mettre deux inputs de même type dont le contenu doit être identique
+            ->add('new_password', RepeatedType::class, [
                 'type'=> PasswordType::class,
                 'mapped'=>false,
                 'invalid_message'=>'Le mot de passe et la confirmation doivent être identiques.',
@@ -57,8 +57,7 @@ class ChangePasswordType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label'=>"Changer"
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

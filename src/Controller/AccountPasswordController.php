@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\ChangePasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +21,6 @@ class AccountPasswordController extends AbstractController
     #[Route('/compte/password', name: 'app_account_password')]
     public function index(Request $request, UserPasswordHasherInterface $encoder): Response
     {
-        $notif = null;
         $user = $this->getUser();
         $form = $this->createForm(ChangePasswordType::class, $user);
         
@@ -37,15 +35,16 @@ class AccountPasswordController extends AbstractController
                 $user->setPassword($password);
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-                $notif = "Le mot de passe a été mis à jour";
+
+                $this->addFlash('notice', 'Votre mot de passe a été mis à jour');
+                return $this->redirectToRoute('app_account');
             } else {
-                $notif = "Votre mot de passe actuel n'est pas le bon";
+                $this->addFlash('notice', 'Votre mot de passe actuel n\'est pas le bon');
             }
         }
 
         return $this->render('account/password.html.twig', [
             'form'=> $form->createView(),
-            'notif' => $notif
         ]);
     }
 }

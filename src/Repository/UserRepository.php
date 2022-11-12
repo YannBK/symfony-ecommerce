@@ -33,8 +33,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    // public function remove(User $entity, bool $flush = false): void
+    // {
+    //     $this->getEntityManager()->remove($entity);
+
+    //     if ($flush) {
+    //         $this->getEntityManager()->flush();
+    //     }
+    // }
     public function remove(User $entity, bool $flush = false): void
     {
+        $anonyme = $this->getEntityManager()->getRepository(UserRepository::class)->findOneBy(['id'=>8888]);
+
+        dd($anonyme);
+
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
@@ -42,9 +54,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {

@@ -37,8 +37,7 @@ class OrderType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-success btn-block'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

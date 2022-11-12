@@ -5,13 +5,17 @@
 {% block content %}
 
 <div>
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+
     <h1>Mon compte</h1>
     <p>Bienvenue {{app.user.firstname}} dans votre compte !</p>
-    <br>
+
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('admin') }}">Administrer la boutique</a>
-        <br>
+        <p><a href="{{ path('admin') }}">Administrer la boutique</a></p>
     {% endif %}
+    
     <div class="row">
         <div class="col-md-4">
             <a href="{{ path('app_account_password') }}">

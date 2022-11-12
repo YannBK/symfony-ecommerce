@@ -39,6 +39,7 @@ class Contact
     private ?string $textAnswer = null;
 
     #[ORM\ManyToOne(inversedBy: 'contacts')]
+    #[ORM\JoinColumn(nullable: true, onDelete:"CASCADE")]
     private ?User $user = null;
 
     #[ORM\Column(nullable: true)]

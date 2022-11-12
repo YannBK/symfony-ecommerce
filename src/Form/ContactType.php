@@ -50,8 +50,7 @@ class ContactType extends AbstractType
                 'attr' => [
                     'class' => 'btn-block btn-success'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

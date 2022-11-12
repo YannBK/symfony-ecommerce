@@ -14,22 +14,6 @@
     
     {% block javascript %}{% endblock %}
 
-    <style>{#TODO à enlever après ajout du contenu de home #}
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <link href="{{asset('assets/css/carousel.css')}}" rel="stylesheet">
 </head>
 <body>
@@ -44,9 +28,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ path('app_products') }}">Nos produits<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
+                    {# <li class="nav-item">
                         <a class="nav-link" href="#">Qui sommes-nous</a>
-                    </li>
+                    </li> #}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
                     </li>
@@ -61,7 +45,7 @@
                     {% endif %}
                 </div>
                 <a href="{{ path('app_cart') }}">
-                    <img src="{{ asset('assets/image/cart.png') }}" alt="icone de panier" class="cart_icon">
+                    <i class="fa-solid fa-cart-shopping text-white ml-2"></i>
                 </a>
             </div>
         </nav>
@@ -105,7 +89,7 @@
         </div>
 
         <footer class="my_footer">
-            <p>&copy; 2022 - MossHeaven &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+            <p>&copy; 2022 - MossHeaven &middot; <a href="{{ path('app_law') }}">Privacy</a> &middot; <a href="{{ path('app_law') }}">Terms</a></p>
         </footer>
     </main>
 

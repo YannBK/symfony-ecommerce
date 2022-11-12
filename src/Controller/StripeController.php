@@ -2,25 +2,23 @@
 
 namespace App\Controller;
 
-use App\Classe\Cart;
 use App\Entity\Order;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Dotenv\Dotenv;
 
 class StripeController extends AbstractController
 {
     #[Route('/commande/create-session/{reference}', name: 'app_stripe_create_session')]
-    public function index(EntityManagerInterface $entityManager, Cart $cart, $reference)
+    public function index(EntityManagerInterface $entityManager, $reference)
     {
         $products_for_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+        // $YOUR_DOMAIN = 'https://mossheaven.test-bettk.eu';
 
         $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
 

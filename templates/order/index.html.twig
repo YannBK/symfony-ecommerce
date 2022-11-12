@@ -9,6 +9,7 @@
     <div class="row">
         <div class="col-md-6">
             {% set formHtml %}
+            {% form_theme form 'bootstrap_5_layout.html.twig'  %}
                 {{ form_start(form, {action:path('app_order_recap')}) }}
                     {{ form_label(form.addresses, 'Choisissez votre adresse de livraison') }}
                     <a href="{{ path('app_account_address_add') }}">Ajouter une nouvelle adresse</a>
@@ -16,17 +17,18 @@
             {% endset %}
                 {{ formHtml|replace({'[br]' : '<br>'})|raw }}
         </div>
+
         <div class="col-md-6 mt-4">
             <div class="text-center">
                 <b>Récapitulatif de votre commande</b>
             </div>
             <div class="order_summary">
-                {% for key,product in cart %}
-                    <div class="row {% if key > 0 %}mt-2{% endif %}">
-                        <div class="col-2">
+                {% for product in cart %}
+                    <div class="row order_item">
+                        <div class="col-4">
                             <img src="/uploads/{{ product.product.illustration }}" alt="{{ product.product.name }}" height="75px">
                         </div>
-                        <div class="col-8 my-auto">
+                        <div class="col-6 my-auto">
                             {{ product.product.name }}<br>
                             <small>{{ product.product.subtitle }}</small>
                         </div>

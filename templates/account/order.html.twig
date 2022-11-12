@@ -25,7 +25,6 @@
             <tbody>
             {% for order in orders %}
                 <tr>
-                    {# <th scope="row">1</th> #}
                     <td>{{ order.reference }}</td>
                     <td>
                         {% if order.state == 1 %}

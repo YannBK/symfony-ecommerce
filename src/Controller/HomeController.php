@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\Header;
+use App\Entity\Marketing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +22,17 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        $products = $this->entityManager->getRepository(Product::class)->findByIsBest(1);
+        $best = $this->entityManager->getRepository(Product::class)->findByIsBest(1);
+        $products = array_slice($best, 0, 3);
+        
         $headers = $this->entityManager->getRepository(Header::class)->findAll();
+        
+        $marketings = $this->entityManager->getRepository(Marketing::class)->findAllOrdered();
+
         return $this->render('home/index.html.twig', [
             'products' => $products,
-            'headers' => $headers
+            'headers' => $headers,
+            'marketings' => $marketings,
         ]);
     }
 }

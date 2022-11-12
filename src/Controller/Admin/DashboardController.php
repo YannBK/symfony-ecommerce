@@ -9,6 +9,7 @@ use App\Entity\Carrier;
 use App\Entity\Order;
 use App\Entity\Header;
 use App\Entity\Contact;
+use App\Entity\Marketing;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -23,6 +24,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        
         $url = $adminUrlGenerator
             ->setController(UserCrudController::class)
             ->generateUrl();
@@ -51,6 +53,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Transporteurs', 'fas fa-truck', Carrier::class);
         yield MenuItem::linkToCrud('Commandes', 'fas fa-shopping-cart', Order::class);
         yield MenuItem::linkToCrud('Headers', 'fas fa-desktop', Header::class);
+        yield MenuItem::linkToCrud('Marketing', 'fas fa-bullhorn', Marketing::class);
         yield MenuItem::linkToCrud('Contacts', 'fas fa-envelope', Contact::class);
     }
 }

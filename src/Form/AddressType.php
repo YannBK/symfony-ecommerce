@@ -74,8 +74,7 @@ class AddressType extends AbstractType
                 'attr' => [
                     'class' => 'btn-block btn-info'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

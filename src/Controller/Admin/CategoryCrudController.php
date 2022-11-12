@@ -30,5 +30,4 @@ class CategoryCrudController extends AbstractCrudController
             ->setPageTitle('new', 'Nouvelle catégorie')
             ->setPageTitle('edit', 'Modifier la catégorie');
     }
-
 }

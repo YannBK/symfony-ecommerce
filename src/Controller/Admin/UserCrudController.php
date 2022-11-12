@@ -43,7 +43,8 @@ class UserCrudController extends AbstractCrudController
             TextField::new('firstname', 'Prénom'),
             TextField::new('lastname', 'Nom'),
             EmailField::new('email', 'Email'),
-            ArrayField::new('roles', 'Rôles')->onlyOnIndex(),
+            ArrayField::new('roles', 'Rôles')
+                ->onlyOnIndex(),
             ChoiceField::new('roles', 'Rôles')
                 ->allowMultipleChoices()
                 ->onlyOnForms()

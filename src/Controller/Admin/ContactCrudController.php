@@ -21,26 +21,33 @@ class ContactCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions->disable(Action::NEW);
+        return $actions
+            ->disable(Action::NEW);
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-        ->setPageTitle('index', 'Les commandes')
-        ->setPageTitle('edit', 'Modifier la commande')
-        ->setDefaultSort(['createdAt'=>'DESC']);
+            ->setPageTitle('index', 'Les commandes')
+            ->setPageTitle('edit', 'Modifier la commande')
+            ->setDefaultSort(['createdAt'=>'DESC']);
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('firstname', 'Prénom')->setFormTypeOption('disabled', 'disabled'),
-            TextField::new('lastname', 'Nom')->setFormTypeOption('disabled', 'disabled'),
-            DateTimeField::new('createdAt', 'Passée le')->setFormTypeOption('disabled', 'disabled'),
-            EmailField::new('email', 'Email')->setFormTypeOption('disabled', 'disabled'),
-            TextField::new('subject', 'Sujet')->setFormTypeOption('disabled', 'disabled'),
-            TextField::new('text', 'Contenu')->setFormTypeOption('disabled', 'disabled'),
+            TextField::new('firstname', 'Prénom')
+                ->setFormTypeOption('disabled', 'disabled'),
+            TextField::new('lastname', 'Nom')
+                ->setFormTypeOption('disabled', 'disabled'),
+            DateTimeField::new('createdAt', 'Passée le')
+                ->setFormTypeOption('disabled', 'disabled'),
+            EmailField::new('email', 'Email')
+                ->setFormTypeOption('disabled', 'disabled'),
+            TextField::new('subject', 'Sujet')
+                ->setFormTypeOption('disabled', 'disabled'),
+            TextField::new('text', 'Contenu')
+                ->setFormTypeOption('disabled', 'disabled'),
             BooleanField::new('answered', 'Répondu'),
         ];
     }

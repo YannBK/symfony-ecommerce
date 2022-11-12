@@ -20,7 +20,7 @@ class RegisterType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label'=>'Votre prénom',
-                'constraints'=> new Length(null, 2,4),
+                'constraints'=> new Length(null, 2,20),
                 'attr'=> [
                     'placeholder'=>'Saisissez votre prénom'
                 ]
@@ -37,7 +37,7 @@ class RegisterType extends AbstractType
                     'placeholder'=>'Saisissez votre email'
                 ]
             ])
-            ->add('password', RepeatedType::class, [ //RepeatedType permet de mettre deux inputs de même type dont le contenu doit être identique
+            ->add('password', RepeatedType::class, [
                 'type'=> PasswordType::class,
                 'invalid_message'=>'Le mot de passe et la confirmation doivent être identiques.',
                 'label'=>'Votre mot de passe',
@@ -58,8 +58,7 @@ class RegisterType extends AbstractType
 
             ->add('submit', SubmitType::class, [
                 'label'=>"S'inscrire"
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

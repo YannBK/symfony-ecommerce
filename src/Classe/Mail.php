@@ -18,12 +18,13 @@ class Mail
 
     public function send($to_email, $to_name, $subject, $content) 
     {
+
         $mj = new Client($this->api_key, $this->api_key_secret, true,['version' => 'v3.1']);
         $body = [
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => "akryjnid888@hotmail.fr",
+                        'Email' => "yann.bettker@gmail.com",
                         'Name' => "MossHeaven"
                     ],
                     'To' => [

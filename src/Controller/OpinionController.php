@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Opinion;
-use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,12 +28,8 @@ class OpinionController extends AbstractController
 
         $comment = $this->entityManager->getRepository(Comment::class)->findOneBy(array('id'=>$commentId));
         
-        $authorMoche = $this->entityManager->getRepository(User::class)->findOneBy(array('id' => $comment->getUser()->getId()));
         $author = $comment->getUser();
-// dump($authorMoche);
-// dd($author);
 
-        // empêcher l'auteur du commentaire de voter sur son commentaire
         if($user === $author) {
             $this->addFlash('notice', 'Vous ne pouvez pas noter vos propres commentaires.');
             return $this->redirectToRoute('app_product', ['slug' => $productSlug]);
