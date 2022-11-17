@@ -52,7 +52,7 @@ class ResetPasswordController extends AbstractController
                 $dotenv->load($rootPath.'/.env');
 
                 $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
-                $mail->send($user->getEmail(), $user->getFirstname().' '.$user->getLastname(), "Réinitialisez votre mot de passe sur MossHeaven", $content);
+                $mail->send($user->getEmail(), $user->getFirstname().' '.$user->getLastname(), $_ENV['SENDER_EMAIL'], "Réinitialisez votre mot de passe sur MossHeaven", $content);
 
                 $this->addFlash('notice', 'Vous allez recevoir un mail avec la procédure pour réinitialiser votre mot de passe.');
             } else {

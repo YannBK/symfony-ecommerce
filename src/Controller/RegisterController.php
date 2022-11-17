@@ -46,7 +46,7 @@ class RegisterController extends AbstractController
 
                 $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
                 $mailContent = "Bonjour nouvel inscrit ".$user->getFirstname()."<br>Bienvenue!";
-                $mail->send($user->getEmail(), $user->getFirstname(), 'Arrivée à MossHeaven', $mailContent);
+                $mail->send($user->getEmail(), $user->getFirstname(), $_ENV['SENDER_EMAIL'], 'Arrivée à MossHeaven', $mailContent);
 
                 $this->addFlash('notice', "Votre inscription s'est bien déroulée, vous pouvez vous connecter");
 

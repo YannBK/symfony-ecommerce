@@ -3,13 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
+    <meta name="description" content="Fake e-commerce à but d'embauche">
+    <meta name="author" content="Yann Bettker">
     <title>{% block title %}MossHeaven{% endblock %}</title>
-    <!-- Bootstrap core CSS -->
+    {# CSS #}
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/css/theboutique.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet">
+    {# Favicon #}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon//favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon//favicon-16x16.png')}}">
+    <link rel="manifest" href="{{asset('favicon/site.webmanifest')}}">
+    {# Fontawesome #}
     <script src="https://kit.fontawesome.com/c5b605e63e.js" crossorigin="anonymous"></script>
     
     {% block javascript %}{% endblock %}

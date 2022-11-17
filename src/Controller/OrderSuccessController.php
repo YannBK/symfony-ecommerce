@@ -39,7 +39,7 @@ class OrderSuccessController extends AbstractController
 
             $mail = new Mail($_ENV['MAILJET_API_KEY'], $_ENV['MAILJET_API_KEY_SECRET']);
             $mailContent = "Bonjour ".$order->getUser()->getFirstname()."<br>Votre commande n° ".$order->getReference()." est bien validée!";
-            $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstname(), 'Commande validée', $mailContent);
+            $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstname(), $_ENV['SENDER_EMAIL'], 'Commande validée', $mailContent);
         }
 
         return $this->render('order_success/index.html.twig', [
