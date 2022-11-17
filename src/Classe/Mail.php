@@ -3,7 +3,6 @@ namespace App\Classe;
 
 use \Mailjet\Resources;
 use \Mailjet\Client;
-use Symfony\Component\Dotenv\Dotenv;
 
 class Mail
 {
@@ -16,7 +15,7 @@ class Mail
         $this->api_key_secret = $api_key_secret;
     }
 
-    public function send($to_email, $to_name, $subject, $content) 
+    public function send($to_email, $to_name, $from_email,  $subject, $content) 
     {
 
         $mj = new Client($this->api_key, $this->api_key_secret, true,['version' => 'v3.1']);
@@ -24,7 +23,7 @@ class Mail
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => "yann.bettker@gmail.com",
+                        'Email' => $from_email,
                         'Name' => "MossHeaven"
                     ],
                     'To' => [
