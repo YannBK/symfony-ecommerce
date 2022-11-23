@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\MarketingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: MarketingRepository::class)]
 class Marketing
@@ -14,22 +16,28 @@ class Marketing
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank()]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank()]
     private ?string $subtitle = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
     private ?string $content = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank()]
     private ?int $place = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $illustration = null;
 
     #[ORM\Column(length: 5)]
+    #[Assert\NotBlank()]
     private ?string $imageSide = null;
 
     public function getId(): ?int

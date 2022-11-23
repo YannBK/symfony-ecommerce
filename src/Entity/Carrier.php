@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CarrierRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CarrierRepository::class)]
 class Carrier
@@ -14,13 +15,17 @@ class Carrier
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
+    #[Assert\Regex("/^\d+.?\d*$/")]
     private ?float $price = null;
 
     public function getId(): ?int

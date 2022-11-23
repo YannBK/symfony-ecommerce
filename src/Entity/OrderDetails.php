@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\OrderDetailsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: OrderDetailsRepository::class)]
 class OrderDetails
@@ -15,18 +17,24 @@ class OrderDetails
 
     #[ORM\ManyToOne(inversedBy: 'orderDetails')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank()]
     private ?Order $myOrder = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $productName = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?int $quantity = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $price = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $total = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderDetails')]

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -19,30 +21,38 @@ class Order
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank()]
+    #[Assert\NotNull]
     private ?User $user = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?\DateTime $createdAt = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
     private ?string $carrierName = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $carrierPrice = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
     private ?string $delivery = null;
 
     #[ORM\OneToMany(mappedBy: 'myOrder', targetEntity: OrderDetails::class)]
     private Collection $orderDetails;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $reference = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $stripeSessionId = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?int $state = null;
 
     public function __construct()

@@ -30,7 +30,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $this->projectDir = $projectDir;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             BeforeEntityPersistedEvent::class => ['addUser'],

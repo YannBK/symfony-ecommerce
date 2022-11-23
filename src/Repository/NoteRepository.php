@@ -42,20 +42,21 @@ class NoteRepository extends ServiceEntityRepository
 //    /**
 //     * @return [] Returns an array of stars to display
 //     */
-   public function averageNoteToStars($product): array
+   public function averageNoteForStars($product): array
    {
-       $avg =  $this->createQueryBuilder('n')
+       return $this->createQueryBuilder('n')
            ->andWhere('n.product = :product')
            ->setParameter('product', $product)
            ->select('AVG(n.note) as average')
            ->getQuery()
            ->getOneOrNullResult();
         
-        $stars = round($avg['average'], 0, PHP_ROUND_HALF_DOWN);
-        $dec = $avg['average']-$stars;
-        $dec > 0.7 ? $stars++ : 
-            ($dec > 0.3 ? $halfStar = 1 : $halfStar = 0);
+        // return $avg;
+        // $stars = round($avg['average'], 0, PHP_ROUND_HALF_DOWN);
+        // $dec = $avg['average']-$stars;
+        // $dec > 0.7 ? $stars++ : 
+        //     ($dec > 0.3 ? $halfStar = 1 : $halfStar = 0);
 
-        return array('average' => $avg['average'], 'stars' => $stars, 'halfStar' => $halfStar);
+        // return array('average' => $avg['average'], 'stars' => $stars, 'halfStar' => $halfStar);
    }
 }

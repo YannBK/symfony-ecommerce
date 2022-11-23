@@ -20,12 +20,23 @@ class AccountNoteController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    public function averageNoteToStars($avg)
+    {
+        $stars = round($avg['average'], 0, PHP_ROUND_HALF_DOWN);
+        $dec = $avg['average']-$stars;
+        $dec > 0.7 ? $stars++ : 
+            ($dec > 0.3 ? $halfStar = 1 : $halfStar = 0);
+
+        return array('average' => $avg['average'], 'stars' => $stars, 'halfStar' => $halfStar);
+    }
+
     #[Route('/compte/mes-commandes/note/{id}', name: 'app_account_note')]
     public function index(string $id, Request $request): Response
     {
         $product = $this->entityManager->getRepository(Product::class)->findOneBy(array('id' => $id));
         $user = $this->getUser();
-        $stars = $this->entityManager->getRepository(Note::class)->averageNoteToStars($product);
+        $avg = $this->entityManager->getRepository(Note::class)->averageNoteForStars($product);
+        $stars = $this->averageNoteToStars($avg);
         
         $existingNote = null;
         $checkNote = $this->entityManager
@@ -52,7 +63,8 @@ class AccountNoteController extends AbstractController
             $this->entityManager->persist($note);
             $this->entityManager->flush();
 
-            $newStars = $this->entityManager->getRepository(Note::class)->averageNoteToStars($product);
+            $newAvg = $this->entityManager->getRepository(Note::class)->averageNoteForStars($product);
+            $newStars = $this->averageNoteToStars($newAvg);
 
             $product->setAverageNote($newStars['average']);
             $product->setStars($newStars['stars']);

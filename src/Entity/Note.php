@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\NoteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: NoteRepository::class)]
 class Note
@@ -14,16 +16,20 @@ class Note
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?int $note = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?\DateTime $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull()]
     private ?Product $product = null;
 
     public function getId(): ?int

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -16,22 +18,28 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank()]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 60)]
+    #[Assert\NotBlank()]
     private ?string $slug = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $illustration = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $subtitle = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?float $price = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
@@ -39,6 +47,7 @@ class Product
     private ?Collection $category = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?bool $isBest = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Comment::class, cascade: ['persist'], orphanRemoval: true)]

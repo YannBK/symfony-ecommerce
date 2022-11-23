@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\OpinionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: OpinionRepository::class)]
 class Opinion
@@ -15,10 +17,14 @@ class Opinion
 
     #[ORM\ManyToOne(inversedBy: 'opinions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank()]
+    #[Assert\NotNull()]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'opinions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank()]
+    #[Assert\NotNull()]
     private ?Comment $comment = null;
 
     #[ORM\Column(nullable: true)]

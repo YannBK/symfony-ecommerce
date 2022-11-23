@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ResetPasswordRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ResetPasswordRepository::class)]
 class ResetPassword
@@ -18,9 +20,11 @@ class ResetPassword
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $token = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?\DateTime $createdAt = null;
 
     public function getId(): ?int
